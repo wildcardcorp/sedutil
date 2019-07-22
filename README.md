@@ -38,3 +38,33 @@ Linux and Windows executables are available at https://github.com/Drive-Trust-Al
 If you are looking for the PSID revert function see linux/PSIDRevert_LINUX.txt or win32/PSIDRevert_WINDOWS.txt
 
 PLEASE SEE CONTRIBUTING if you would like to make a code contribution.
+
+
+
+
+### Build on Oracle Linux ###
+```yum reinstall oracle-softwarecollection-release-el7 numactl-devel
+yum-config-manager --enable ol7_latest,ol7_UEKR5
+yum install kernel-uek-devel-`uname -r` kernel-headers kernel-devel kernel-uek-devel
+
+wget https://yum.oracle.com/repo/OracleLinux/OL7/optional/latest/x86_64/getPackage/xorg-x11-util-macros-1.19.0-3.el7.noarch.rpm
+rpm -i xorg-x11-util-macros-1.19.0-3.el7.noarch.rpm
+
+yum groupinstall "X Window System" "Desktop" "Desktop Platform" “Development Tools”
+yum install xutils-dev
+
+git clone https://github.com/rcvalle/libpciaccess.git
+git clone https://github.com/hgst/libnvme.git
+git clone https://github.com/amotin/sedutil.git 
+mod sedutil as in : https://github.com/Drive-Trust-Alliance/sedutil/pull/174/files
+update spelling error on LinuxPBA/UnlockSEDs.cpp:83:21: error: expected type-specifier before ‘DtaDevPurite1’
+             d = new DtaDevPurite1(devref);
+
+is Pyrite1 with a y
+
+cd libpciaccess
+sh autogen.sh ; ./configure; make; make install
+cd ../libnvme/
+sh autogen.sh ; ./configure; make; make install
+cd ../sedutil/
+sh autoreconf -i ; ./configure; make; make install```
